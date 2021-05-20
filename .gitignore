@@ -1,7 +1,3 @@
-/Client_Game2/nbproject/private/
-/Server_Game2/nbproject/private/
-/Client_Game2/build/
-/ClienteTCP/nbproject/private/
-/ServerTCP/nbproject/private/
-/ClienteTCP/build/
-/ServerTCP/build/
+nbproject/private/
+build/
+dist/
