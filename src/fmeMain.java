@@ -2,6 +2,10 @@
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,6 +32,12 @@ public class fmeMain extends javax.swing.JFrame {
         }
         Server server = new Server();
         new Thread(server).start();
+        try {
+
+            new EchoServer().start(); //inicia o servidor
+        } catch (SocketException ex) {
+            Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -125,8 +135,15 @@ public class fmeMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Client c = new Client(jTxtConnectIP.getText());
-        new Thread(c).start();
+        try {
+            //Client c = new Client(jTxtConnectIP.getText());
+            //new Thread(c).start();
+            EchoClient c = new EchoClient(jTxtConnectIP.getText());
+        } catch (SocketException ex) {
+            Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
