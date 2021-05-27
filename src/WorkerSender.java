@@ -24,10 +24,9 @@ public class WorkerSender implements Runnable {
     protected DatagramSocket socket = null;
     protected InetAddress ipDestino;
     protected BufferedImage bi = null;
-    protected int posX, posY, i, n;
-    protected String[][] anterior;
+    protected int posX, posY;
 
-    public WorkerSender(InetAddress ipDestino, BufferedImage bi, int posX, int posY, int i, int n, String[][] anterior) {
+    public WorkerSender(InetAddress ipDestino, BufferedImage bi, int posX, int posY) {
         try {
             this.socket = new DatagramSocket();
         } catch (SocketException ex) {
@@ -37,9 +36,14 @@ public class WorkerSender implements Runnable {
         this.bi = bi;
         this.posX = posX;
         this.posY = posY;
-        this.i = i;
-        this.n = n;
-        this.anterior = anterior;
+    }
+
+    public String BufferToString(byte buffer[]) {
+        String result = "";
+        for (int i = 0; i < buffer.length; i++) {
+            result = result + buffer[i];
+        }
+        return result;
     }
 
     public void run() {
@@ -71,14 +75,9 @@ public class WorkerSender implements Runnable {
                 buffer[aux++] = auxBufferPosY[j];
             }
 
-            if (!anterior[i][n].equals(buffer.toString())) {
-                DatagramPacket enviaPacote = new DatagramPacket(buffer, buffer.length, ipDestino, Utils.PORTA);
-                socket.send(enviaPacote);
-            } else {
-                System.err.println("Não enviado " + i + " " + n + ": " + buffer.toString());
-            }
+            DatagramPacket enviaPacote = new DatagramPacket(buffer, buffer.length, ipDestino, Utils.PORTA);
+            socket.send(enviaPacote);
 
-            anterior[i][n] = buffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }

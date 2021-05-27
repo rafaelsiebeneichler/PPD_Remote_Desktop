@@ -45,8 +45,7 @@ public class EchoSender extends Thread {
 
                     for (int i = 0; i < 20; i++) {
                         for (int n = 0; n < 20; n++) {
-
-                            WorkerSender w = new WorkerSender(ipDestino, bi, posX, posY, i, n, anterior);
+                            WorkerSender w = new WorkerSender(ipDestino, bi, posX, posY);
                             new Thread(w).start();
 
                             posX = posX + Utils.BLOCK_X;
@@ -57,7 +56,7 @@ public class EchoSender extends Thread {
 
                     Thread.sleep(10);
 
-                } catch (Exception e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 for (int i = 0; i < 20; i++) {
