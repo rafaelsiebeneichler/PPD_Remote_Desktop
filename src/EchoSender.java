@@ -14,7 +14,7 @@ public class EchoSender extends Thread {
 
     private boolean running;
     private String ipAdress;
-    
+
     public EchoSender(String ipAdress) {
         this.ipAdress = ipAdress;
     }
@@ -22,8 +22,14 @@ public class EchoSender extends Thread {
     public void run() {
         this.running = true;
         byte buffer[] = new byte[Utils.BLOCK_X * Utils.BLOCK_Y * 4 + 4 + 4]; // pegar R, G, B, e alfa para cada pixel + 4 pois quero informar o posX e  + 4 posY (posicão sorteada)
+        String anterior[][] = new String[20][20];
 
         try {
+            for (int i = 0; i < 20; i++) {
+                for (int n = 0; n < 20; n++) {
+                    anterior[i][n] = "";
+                }
+            }
 
             Robot robot = new Robot();
             DatagramSocket senderSocket = new DatagramSocket();
@@ -32,15 +38,15 @@ public class EchoSender extends Thread {
             while (running) {
                 try {
                     // captura a tela toda
-                    BufferedImage bi = robot.createScreenCapture(new Rectangle(Utils.RESOLUCAO_X, Utils.RESOLUCAO_Y)); 
+                    BufferedImage bi = robot.createScreenCapture(new Rectangle(Utils.RESOLUCAO_X, Utils.RESOLUCAO_Y));
 
                     int posX = 0;
                     int posY = 0;
 
                     for (int i = 0; i < 20; i++) {
                         for (int n = 0; n < 20; n++) {
-                            
-                            WorkerSender w = new WorkerSender(ipDestino, bi, posX, posY);
+
+                            WorkerSender w = new WorkerSender(ipDestino, bi, posX, posY, i, n, anterior);
                             new Thread(w).start();
 
                             posX = posX + Utils.BLOCK_X;
@@ -49,8 +55,15 @@ public class EchoSender extends Thread {
                         posX = 0;
                     }
 
+                    Thread.sleep(10);
+
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+                for (int i = 0; i < 20; i++) {
+                    for (int n = 0; n < 20; n++) {
+                        System.out.println(anterior[i][n]);
+                    }
                 }
             }
 

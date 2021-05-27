@@ -23,17 +23,16 @@ public class WorkerReceiver implements Runnable {
         // int do posY
         byte auxPosY[] = new byte[4];
         for (int i = 0; i < 4; i++) {
-            auxPosY[i] = buffer[buffer.length - 4 + i]; // posy estava a 4 bytes atras no fim do pacote
+            auxPosY[i] = buffer[buffer.length - 4 + i]; // posY estava a 4 bytes atras no fim do pacote
         }
         int posY = Utils.bytesToInteger(auxPosY);
         int aux = 0;
         for (int y = 0; y < Utils.BLOCK_Y; y++) {
             for (int x = 0; x < Utils.BLOCK_X; x++) {
 
-                // int do posY
                 byte auxCor[] = new byte[4];
                 for (int i = 0; i < 4; i++) {
-                    auxCor[i] = buffer[aux++]; // posy estava a 4 bytes atras no fim do pacote
+                    auxCor[i] = buffer[aux++]; 
                 }
                 int cor = Utils.bytesToInteger(auxCor);
 
