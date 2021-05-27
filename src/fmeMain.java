@@ -30,14 +30,9 @@ public class fmeMain extends javax.swing.JFrame {
             jTxYourIP.setText(socket.getLocalAddress().toString());
         } catch (IOException e) {
         }
-        Server server = new Server();
-        new Thread(server).start();
-        try {
-
-            new EchoServer().start(); //inicia o servidor
-        } catch (SocketException ex) {
-            Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Server server = new Server();
+        //new Thread(server).start();
+        new EchoSender().start(); //inicia o servidor
     }
 
     /**
@@ -138,10 +133,8 @@ public class fmeMain extends javax.swing.JFrame {
         try {
             //Client c = new Client(jTxtConnectIP.getText());
             //new Thread(c).start();
-            EchoClient c = new EchoClient(jTxtConnectIP.getText());
-        } catch (SocketException ex) {
-            Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnknownHostException ex) {
+            EchoReceiver c = new EchoReceiver(jTxtConnectIP.getText());
+        } catch (SocketException | UnknownHostException ex) {
             Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

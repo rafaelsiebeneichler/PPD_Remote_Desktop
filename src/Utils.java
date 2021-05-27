@@ -8,7 +8,7 @@ public class Utils {
     public static final int BLOCK_X = 96; // em pixels
     public static final int BLOCK_Y = 54; // em pixels
 
-    public static final int PORTA = 5020; // porta a qual serão enviados os dados
+    public static final int PORTA = 6478; // porta a qual serão enviados os dados
 
     
     public static byte[] integerToBytes(int value) {

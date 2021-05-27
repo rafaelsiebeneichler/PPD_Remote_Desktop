@@ -1,18 +1,29 @@
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-public class RecebedorBlocosAleatorios extends JFrame implements Runnable {
+public class EchoReceiver extends JFrame implements Runnable {
 
     private Thread t = new Thread(this);
     private BufferedImage bi = new BufferedImage(Utils.RESOLUCAO_X, Utils.RESOLUCAO_Y, BufferedImage.TYPE_INT_ARGB);
     private byte buffer[] = new byte[Utils.BLOCK_X * Utils.BLOCK_Y * 4 + 4 + 4]; // pegar R, G, B, e alfa + 4 pois quero informar o posX e + 4 posY (posicão sorteada)
 
-    public RecebedorBlocosAleatorios() {
+    private InetAddress address;
+    private String serverAddr;
+
+    public EchoReceiver(String ip) throws SocketException, UnknownHostException {
+        this.serverAddr = ip;
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
         setTitle("Schoweiro 1.0");
@@ -55,7 +66,7 @@ public class RecebedorBlocosAleatorios extends JFrame implements Runnable {
                         int cor = Utils.bytesToInteger(auxCor);
 
                         bi.setRGB(posX + x, posY + y, cor);
-                        
+
                     }
                 }
 
@@ -75,9 +86,4 @@ public class RecebedorBlocosAleatorios extends JFrame implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(bi, 0, 0, this);
     }
-
-    public static void main(String[] args) {
-        new RecebedorBlocosAleatorios();
-    }
-
 }

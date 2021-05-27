@@ -2,18 +2,24 @@
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author Alexandre Sturmer Wolf
- */
-public class EnviadorBlocosAleatorios {
+public class EchoSender extends Thread {
 
-    public static void main(String[] args) {
-        // buffer para armazenar o bloco da tela
+    private boolean running;
+    
+    public EchoSender() {
+        
+    }
+
+    public void run() {
+        this.running = true;
         byte buffer[] = new byte[Utils.BLOCK_X * Utils.BLOCK_Y * 4 + 4 + 4]; // pegar R, G, B, e alfa para cada pixel + 4 pois quero informar o posX e  + 4 posY (posicão sorteada)
 
         try {
@@ -22,11 +28,10 @@ public class EnviadorBlocosAleatorios {
             DatagramSocket senderSocket = new DatagramSocket();
             InetAddress ipDestino = InetAddress.getByName("127.0.0.1"); // destinatário
 
-            while (true) {
-
+            while (running) {
                 try {
-
-                    BufferedImage bi = robot.createScreenCapture(new Rectangle(Utils.RESOLUCAO_X, Utils.RESOLUCAO_Y)); // capturei a tela toda
+                    // captura a tela toda
+                    BufferedImage bi = robot.createScreenCapture(new Rectangle(Utils.RESOLUCAO_X, Utils.RESOLUCAO_Y)); 
 
                     int posX = 0;
                     int posY = 0;
@@ -63,8 +68,7 @@ public class EnviadorBlocosAleatorios {
                             DatagramPacket enviaPacote = new DatagramPacket(buffer, buffer.length, ipDestino, Utils.PORTA);
                             senderSocket.send(enviaPacote);
 
-                           // Thread.sleep(10);
-
+                            // Thread.sleep(10);
                             posX = posX + Utils.BLOCK_X;
                         }
                         posY = posY + Utils.BLOCK_Y;
