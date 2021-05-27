@@ -25,8 +25,9 @@ public class EchoReceiver extends JFrame implements Runnable {
     public EchoReceiver(String ip) throws SocketException, UnknownHostException {
         this.serverAddr = ip;
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Remote Desk");
+        setLocationRelativeTo(null);
         setVisible(true);
-        setTitle("Schoweiro 1.0");
         setSize(Utils.RESOLUCAO_X, Utils.RESOLUCAO_Y);
         t.start();
     }
@@ -40,38 +41,9 @@ public class EchoReceiver extends JFrame implements Runnable {
                 DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
                 receiveSocket.receive(receivePacket);
 
-                // int do posX
-                byte auxPosX[] = new byte[4];
-                for (int i = 0; i < 4; i++) {
-                    auxPosX[i] = buffer[buffer.length - 8 + i]; // posX estava a 8 bytes atras no fim do pacote
-                }
-                int posX = Utils.bytesToInteger(auxPosX);
-
-                // int do posY
-                byte auxPosY[] = new byte[4];
-                for (int i = 0; i < 4; i++) {
-                    auxPosY[i] = buffer[buffer.length - 4 + i]; // posy estava a 4 bytes atras no fim do pacote
-                }
-                int posY = Utils.bytesToInteger(auxPosY);
-
-                int aux = 0;
-                for (int y = 0; y < Utils.BLOCK_Y; y++) {
-                    for (int x = 0; x < Utils.BLOCK_X; x++) {
-
-                        // int do posY
-                        byte auxCor[] = new byte[4];
-                        for (int i = 0; i < 4; i++) {
-                            auxCor[i] = buffer[aux++]; // posy estava a 4 bytes atras no fim do pacote
-                        }
-                        int cor = Utils.bytesToInteger(auxCor);
-
-                        bi.setRGB(posX + x, posY + y, cor);
-
-                    }
-                }
-
-                // Thread.sleep(10);
-                repaint();
+                WorkerReceiver w = new WorkerReceiver(bi, buffer, this);
+                new Thread(w).start();
+                
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

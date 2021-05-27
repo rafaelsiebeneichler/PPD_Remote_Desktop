@@ -32,7 +32,7 @@ public class fmeMain extends javax.swing.JFrame {
         }
         //Server server = new Server();
         //new Thread(server).start();
-        new EchoSender().start(); //inicia o servidor
+        new EchoSender("127.0.0.1").start(); //inicia o servidor
     }
 
     /**
