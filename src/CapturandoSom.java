@@ -14,7 +14,8 @@ import javax.sound.sampled.TargetDataLine;
  */
 class CapturandoSom {
 
-    File wavFile = new File("C:\\Users\\Douglas\\Desktop\\music.wav");
+//    File wavFile = new File("C:\\Users\\Douglas\\Desktop\\music.wav");
+    File wavFile = new File("..\\music.wav");
 
 // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
