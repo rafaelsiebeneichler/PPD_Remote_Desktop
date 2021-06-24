@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -30,9 +29,16 @@ public class fmeMain extends javax.swing.JFrame {
             jTxYourIP.setText(socket.getLocalAddress().toString());
         } catch (IOException e) {
         }
-        //Server server = new Server();
-        //new Thread(server).start();
-        new EchoSender("127.0.0.1").start(); //inicia o servidor
+        try {
+            //Server server = new Server();
+            //new Thread(server).start();
+            if (!Utils.checkIfAlreadyRunning()) {
+                //new EchoSender("127.0.0.1").start(); //inicia o servidor
+                new EchoSender("190.15.46.13").start(); //Douglas
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,6 +98,8 @@ public class fmeMain extends javax.swing.JFrame {
         jPnlConectar.setPreferredSize(new java.awt.Dimension(200, 200));
 
         jLabel2.setText("Conectar IP:");
+
+        jTxtConnectIP.setText("127.0.0.1");
 
         jButton1.setText("Conectar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

@@ -35,7 +35,7 @@ public static void main(String[] args) throws LineUnavailableException {
     speakers.open(format);
     speakers.start();
 
-    String hostname = "localhost";
+    String hostname = "190.15.46.13";
     int port = 5555;
 
     try {
@@ -47,7 +47,6 @@ public static void main(String[] args) throws LineUnavailableException {
         byte[] sendData = new byte[1024];
 
         while (true) {
-
             byte[] buffer = new byte[1024];
             DatagramPacket response = new DatagramPacket(buffer, buffer.length);
             serverSocket.receive(response);

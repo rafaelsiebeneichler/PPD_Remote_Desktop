@@ -1,4 +1,9 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 
 public class Utils {
 
@@ -34,5 +39,52 @@ public class Utils {
                 | ((bytes[1] & 0xFF) << 16)
                 | ((bytes[2] & 0xFF) << 8)
                 | ((bytes[3] & 0xFF) << 0);
+    }
+    
+    static File file;
+    static FileChannel fileChannel;
+    static FileLock lock;
+    static boolean running = false;
+
+    @SuppressWarnings("resource")
+    public static boolean checkIfAlreadyRunning() throws IOException {
+        String tmpdir = System.getProperty("java.io.tmpdir");
+        file = new File(tmpdir + "rd-client.lock");
+        if (!file.exists()) {
+            file.createNewFile();
+            //running = true;
+        } else {
+            file.delete();
+        }
+
+        fileChannel = new RandomAccessFile(file, "rw").getChannel();
+        lock = fileChannel.tryLock();
+
+        if (lock == null) {
+            fileChannel.close();
+            return true;
+        }
+        ShutdownHook shutdownHook = new ShutdownHook();
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
+
+        return running;
+    }
+
+    public static void unlockFile() {
+        try {
+            if (lock != null)
+                lock.release();
+            fileChannel.close();
+            file.delete();
+            running = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class ShutdownHook extends Thread {
+        public void run() {
+            unlockFile();
+        }
     }
 }

@@ -42,7 +42,8 @@ public class EchoReceiver extends JFrame implements Runnable {
                 receiveSocket.receive(receivePacket);
 
                 WorkerReceiver w = new WorkerReceiver(bi, buffer, this);
-                new Thread(w).start();
+                w.run();
+                //new Thread(w).start();
                 
             } catch (Exception e) {
                 e.printStackTrace();
