@@ -14,7 +14,8 @@ import javax.sound.sampled.TargetDataLine;
 public class UdpClient {
 
 public static void main(String[] args) throws LineUnavailableException {
-     AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, true);
+    
+    AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, true);
     TargetDataLine microphone;
     SourceDataLine speakers;
     microphone = AudioSystem.getTargetDataLine(format);
@@ -57,8 +58,6 @@ public static void main(String[] args) throws LineUnavailableException {
 
             System.out.println(quote);
             System.out.println();
-
-            //Thread.sleep(10000);
         }
 
     } catch (SocketTimeoutException ex) {
@@ -67,7 +66,5 @@ public static void main(String[] args) throws LineUnavailableException {
     } catch (IOException ex) {
         System.out.println("Client error: " + ex.getMessage());
         ex.printStackTrace();
-    }/* catch (InterruptedException ex) {
-        ex.printStackTrace();
-    }*/
+    }
 }}

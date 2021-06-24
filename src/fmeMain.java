@@ -33,8 +33,8 @@ public class fmeMain extends javax.swing.JFrame {
             //Server server = new Server();
             //new Thread(server).start();
             if (!Utils.checkIfAlreadyRunning()) {
-                //new EchoSender("127.0.0.1").start(); //inicia o servidor
-                new EchoSender("190.15.46.13").start(); //Douglas
+                new EchoSender("127.0.0.1").start(); //inicia o servidor
+                //new EchoSender("190.15.46.13").start(); //Douglas
             }
         } catch (IOException ex) {
             Logger.getLogger(fmeMain.class.getName()).log(Level.SEVERE, null, ex);
