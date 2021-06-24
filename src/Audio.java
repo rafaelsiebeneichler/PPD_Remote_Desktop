@@ -9,11 +9,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author Douglas
@@ -28,7 +23,7 @@ public class Audio {
         Thread stopper = new Thread(new Runnable() {
             public void run() {
                 try {
-                    long RECORD_TIME = 0;
+                    long RECORD_TIME = 5000;
                     Thread.sleep(RECORD_TIME);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();

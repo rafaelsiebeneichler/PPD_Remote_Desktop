@@ -10,6 +10,11 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
+/**
+ *
+ * @author rafaelsiebeneichler
+ */
+
 public class AudioSender {
     
     private static String hostname = "190.15.46.13";

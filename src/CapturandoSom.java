@@ -34,14 +34,13 @@ class CapturandoSom {
             AudioFormat format = getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
-            // checks if system supports the data line
             if (!AudioSystem.isLineSupported(info)) {
                 System.out.println("Line not supported");
                 System.exit(0);
             }
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format);
-            line.start();   // start capturing
+            line.start();   
 
             System.out.println("Start capturing...");
 
@@ -49,7 +48,6 @@ class CapturandoSom {
 
             System.out.println("Start recording...");
 
-            // start recording
             AudioSystem.write(ais, fileType, wavFile);
 
         } catch (Exception e) {
